@@ -54,6 +54,6 @@ async fn main() {
             }
         }
     }
-   
-    if !args.silent { Notification::new().summary(&args.message).show_async().await.unwrap(); }
+    
+    if !args.silent { Notification::new().summary(&args.message).show().unwrap(); }
 }
