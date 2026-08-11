@@ -196,6 +196,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f2032f911046de80f0a198e0901378627c33f59ea0ac00e363d481118bd70a53"
 
 [[package]]
+name = "bettertimer"
+version = "1.0.0"
+dependencies = [
+ "clap",
+ "humantime",
+ "indicatif",
+ "notify-rust",
+ "tokio",
+]
+
+[[package]]
 name = "bitflags"
 version = "2.13.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1001,17 +1012,6 @@ name = "time-core"
 version = "0.1.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9e1c906769ad99c88eaa54e728060edef082f8e358ff32030cb7c7d315e81109"
-
-[[package]]
-name = "timer"
-version = "1.0.0"
-dependencies = [
- "clap",
- "humantime",
- "indicatif",
- "notify-rust",
- "tokio",
-]
 
 [[package]]
 name = "tokio"
