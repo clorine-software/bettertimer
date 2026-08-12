@@ -24,14 +24,14 @@ struct Args {
 }
 
 #[tokio::main]
-async fn main() {
+async fn main() -> Result<(), humantime::DurationError> {
     let args = Args::parse();
 
     let total = match parse_duration(&args.time) {
         Ok(t) => t,
         Err(e) => {
-            println!("Ошибка парсинга времени: {}", e);
-            panic!()
+            eprintln!("Time parsing error: {}", e);
+            return Err(e);
         }
     };
 
@@ -70,4 +70,6 @@ async fn main() {
             .show()
             .unwrap();
     }
+
+    Ok(())
 }
