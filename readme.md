@@ -7,16 +7,16 @@ BetterTimer is a small CLI, similar to the `sleep`, but with extra features:
 ## Usage
 
 ```sh
-timer <duration>                      # 2ns, 42us, 5ms, 10s, 50m, 9h, etc
-timer <duration> --name <name>        # Specify the name in notification ("BetterTimer" by default)
-timer <duration> --message <message>  # Specify the message in notification ("Time's up" by default)
-timer <duration> --silent             # Suppress notifications (silent mode)
+bettertimer <duration>                      # 2ns, 42us, 5ms, 10s, 50m, 9h, etc
+bettertimer <duration> --name <name>        # Specify the name in notification ("BetterTimer" by default)
+bettertimer <duration> --message <message>  # Specify the message in notification ("Time's up" by default)
+bettertimer <duration> --silent             # Suppress notifications (silent mode)
 ```
 
 Examples:
 ```sh
-timer 5s --silent                                     # Or just `timer 5s -s`
-timer 20m --name "Timer Demo" --message "Time to go!" # Or just `timer 20m -n "Timer Demo" -m "Time to go!"`
+bettertimer 5s --silent                                     # Or just `timer 5s -s`
+bettertimer 20m --name "Timer Demo" --message "Time to go!" # Or just `timer 20m -n "Timer Demo" -m "Time to go!"`
 ```
 
 ## Installation
