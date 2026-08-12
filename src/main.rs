@@ -1,21 +1,27 @@
-use indicatif::{ProgressBar, ProgressStyle};
-use tokio::time::{Duration, sleep, interval};
-use notify_rust::Notification;
 use clap::Parser;
 use humantime::{format_duration, parse_duration};
+use indicatif::{ProgressBar, ProgressStyle};
+use notify_rust::Notification;
+use tokio::time::{Duration, interval, sleep};
 
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
 struct Args {
+    /// Timer's time
     time: String,
 
+    /// Suppress notification messages when set
     #[arg(short, long, default_value_t = false)]
     silent: bool,
 
+    /// Timer name (notification summary)
+    #[arg(short, long, default_value_t = String::from("BetterTimer"))]
+    name: String,
+
+    /// Timer message (notification body)
     #[arg(short, long, default_value_t = String::from("Time's up"))]
     message: String,
 }
-
 
 #[tokio::main]
 async fn main() {
@@ -23,7 +29,10 @@ async fn main() {
 
     let total = match parse_duration(&args.time) {
         Ok(t) => t,
-        Err(e) => {println!("Ошибка парсинга времени: {}", e); panic!()},
+        Err(e) => {
+            println!("Ошибка парсинга времени: {}", e);
+            panic!()
+        }
     };
 
     let start = tokio::time::Instant::now();
@@ -33,10 +42,9 @@ async fn main() {
 
     let formatted_total = format_duration(total);
 
-    let bar = ProgressBar::new(total.as_millis() as u64).with_message(format!("{}", formatted_total));
-    bar.set_style(ProgressStyle::with_template("[{msg}] {bar:40.cyan/blue} {percent}%")
-        .unwrap()
-    );
+    let bar =
+        ProgressBar::new(total.as_millis() as u64).with_message(format!("{}", formatted_total));
+    bar.set_style(ProgressStyle::with_template("[{msg}] {bar:40.cyan/blue} {percent}%").unwrap());
 
     let mut interval = interval(Duration::from_millis(10));
     loop {
@@ -54,6 +62,12 @@ async fn main() {
             }
         }
     }
-    
-    if !args.silent { Notification::new().summary(&args.message).show().unwrap(); }
+
+    if !args.silent {
+        Notification::new()
+            .summary(&args.name)
+            .body(&args.message)
+            .show()
+            .unwrap();
+    }
 }
