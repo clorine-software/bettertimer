@@ -15,8 +15,8 @@ bettertimer <duration> --silent             # Suppress notifications (silent mod
 
 Examples:
 ```sh
-bettertimer 5s --silent                                     # Or just `timer 5s -s`
-bettertimer 20m --name "Timer Demo" --message "Time to go!" # Or just `timer 20m -n "Timer Demo" -m "Time to go!"`
+bettertimer 5s --silent                                     # Or just `bettertimer 5s -s`
+bettertimer 20m --name "Timer Demo" --message "Time to go!" # Or just `bettertimer 20m -n "Timer Demo" -m "Time to go!"`
 ```
 
 ## Installation
