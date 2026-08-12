@@ -43,8 +43,11 @@ async fn main() -> Result<()> {
 
     let formatted_total = format_duration(total);
 
-    let bar =
-        ProgressBar::new(total.as_millis() as u64).with_message(format!("{}", formatted_total));
+    let bar = ProgressBar::new(total.as_millis() as u64)
+        .with_message(format!("{}", formatted_total))
+        .with_finish(indicatif::ProgressFinish::WithMessage(
+            std::borrow::Cow::Owned(args.message.clone()),
+        ));
     bar.set_style(ProgressStyle::with_template(
         "[{msg}] {bar:40.cyan/blue} {percent}%",
     )?);
@@ -55,7 +58,7 @@ async fn main() -> Result<()> {
             _ = &mut timer => {
                 bar.set_position(total.as_millis() as u64);
                 bar.set_message(format!("{}/{}", formatted_total, formatted_total));
-                bar.finish();
+                bar.finish_using_style();
                 break
             },
             _ = interval.tick() => {
