@@ -1,3 +1,4 @@
+use anyhow::{Result, anyhow};
 use clap::Parser;
 use humantime::{format_duration, parse_duration};
 use indicatif::{ProgressBar, ProgressStyle};
@@ -24,14 +25,14 @@ struct Args {
 }
 
 #[tokio::main]
-async fn main() -> Result<(), humantime::DurationError> {
+async fn main() -> Result<()> {
     let args = Args::parse();
 
     let total = match parse_duration(&args.time) {
         Ok(t) => t,
         Err(e) => {
             eprintln!("Time parsing error: {}", e);
-            return Err(e);
+            return Err(anyhow!("{}", e));
         }
     };
 
@@ -44,7 +45,9 @@ async fn main() -> Result<(), humantime::DurationError> {
 
     let bar =
         ProgressBar::new(total.as_millis() as u64).with_message(format!("{}", formatted_total));
-    bar.set_style(ProgressStyle::with_template("[{msg}] {bar:40.cyan/blue} {percent}%").unwrap());
+    bar.set_style(ProgressStyle::with_template(
+        "[{msg}] {bar:40.cyan/blue} {percent}%",
+    )?);
 
     let mut interval = interval(Duration::from_millis(10));
     loop {
@@ -67,8 +70,7 @@ async fn main() -> Result<(), humantime::DurationError> {
         Notification::new()
             .summary(&args.name)
             .body(&args.message)
-            .show()
-            .unwrap();
+            .show()?;
     }
 
     Ok(())

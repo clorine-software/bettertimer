@@ -1,7 +1,7 @@
 [package]
 name = "bettertimer"
 description = "`sleep` with progress and notifications, written in rust"
-version = "1.0.4"
+version = "1.0.5"
 license = "GPL-3.0-or-later"
 edition = "2024"
 repository = "https://github.com/clorine-software/bettertimer"
@@ -9,6 +9,7 @@ homepage = "https://github.com/clorine-software/bettertimer"
 authors = ["clorine-software", "nd1", "slawacats"]
 
 [dependencies]
+anyhow = "1.0.104"
 clap = { version = "4.6.6", features = ["derive"] }
 humantime = "2.4.0"
 indicatif = "0.18.6"
