@@ -15,6 +15,10 @@ struct Args {
     #[arg(short, long, default_value_t = false)]
     silent: bool,
 
+    /// Is timer should be reversed
+    #[arg(short, long, default_value_t = false)]
+    countdown: bool,
+
     /// Timer name (notification summary)
     #[arg(short, long, default_value_t = String::from("BetterTimer"))]
     name: String,
@@ -53,18 +57,27 @@ async fn main() -> Result<()> {
     )?);
 
     let mut interval = interval(Duration::from_millis(10));
+
     loop {
         tokio::select! {
             _ = &mut timer => {
                 bar.set_position(total.as_millis() as u64);
-                bar.set_message(format!("{}/{}", formatted_total, formatted_total));
+                let msg = match args.countdown {
+                    true => format!("0ns"),
+                    false => format!("{}/{}", formatted_total, formatted_total),
+                };
+                bar.set_message(msg);
                 bar.finish_using_style();
                 break
             },
             _ = interval.tick() => {
                 let elapsed = start.elapsed();
                 bar.set_position(elapsed.as_millis() as u64);
-                bar.set_message(format!("{}/{}", format_duration(Duration::from_millis(elapsed.as_millis() as u64)), formatted_total));
+                let msg = match args.countdown {
+                    true => format!("{}", format_duration(Duration::from_millis( (total - elapsed).as_millis() as u64))),
+                    false => format!("{}/{}", format_duration(Duration::from_millis(elapsed.as_millis() as u64)), formatted_total),
+                };
+                bar.set_message(msg);
             }
         }
     }
