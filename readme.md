@@ -20,7 +20,7 @@ bettertimer <duration> --progressbar-length <length>            # Or just -l
 bettertimer <duration> --progressbar-color <length>             # Or just -C
 bettertimer <duration> --progressbar-background-color <length>  # Or just -b 
 
-bettertimer <duration> --update-interval                        # Progressbar, timer update interval in millis
+bettertimer <duration> --update-interval <millis>               # Progressbar, timer update interval in millis
 
 # Define alias to avoid typing style options every time (Bash/Zsh)
 alias timer='bettertimer [OPTIONS]'
