@@ -1,8 +1,8 @@
 use anyhow::{Result, anyhow};
-use humantime::{format_duration, parse_duration};
+use humantime::{FormattedDuration, format_duration, parse_duration};
 use indicatif::{ProgressBar, ProgressStyle};
 use notify_rust::Notification;
-use tokio::time::{Duration, interval, sleep};
+use tokio::time::{Duration, Instant, Interval, interval, sleep};
 
 use crate::parser::{self, Args};
 
@@ -27,10 +27,7 @@ pub async fn logic() -> Result<()> {
 }
 
 async fn timer(total: Duration, args: &Args) -> Result<()> {
-    let start = tokio::time::Instant::now();
-
-    let timer = sleep(total);
-    tokio::pin!(timer);
+    let start = Instant::now();
 
     let formatted_total = format_duration(total);
 
@@ -50,16 +47,30 @@ async fn timer(total: Duration, args: &Args) -> Result<()> {
             + "} {percent}%"),
     )?);
 
-    let mut interval = interval(Duration::from_millis(10));
+    let mut interval = interval(Duration::from_millis(args.update_interval));
 
+    match args.countdown {
+        false => loop_standart(bar, start, total, &mut interval, formatted_total).await?,
+        true => loop_countdown(bar, start, total, &mut interval).await?,
+    }
+
+    Ok(())
+}
+
+async fn loop_standart(
+    bar: ProgressBar,
+    start: Instant,
+    total: Duration,
+    interval: &mut Interval,
+    formatted_total: FormattedDuration,
+) -> Result<()> {
+    let timer = sleep(total);
+    tokio::pin!(timer);
     loop {
         tokio::select! {
             _ = &mut timer => {
                 bar.set_position(total.as_millis() as u64);
-                let msg = match args.countdown {
-                    true => format!("0ns"),
-                    false => format!("{}/{}", formatted_total, formatted_total),
-                };
+                let msg = format!("{}/{}", formatted_total, formatted_total);
                 bar.set_message(msg);
                 bar.finish_using_style();
                 break
@@ -67,10 +78,35 @@ async fn timer(total: Duration, args: &Args) -> Result<()> {
             _ = interval.tick() => {
                 let elapsed = start.elapsed();
                 bar.set_position(elapsed.as_millis() as u64);
-                let msg = match args.countdown {
-                    true => format!("{}", format_duration(Duration::from_millis( (total - elapsed).as_millis() as u64))),
-                    false => format!("{}/{}", format_duration(Duration::from_millis(elapsed.as_millis() as u64)), formatted_total),
-                };
+                let msg = format!("{}/{}", format_duration(Duration::from_millis(elapsed.as_millis() as u64)), formatted_total);
+                bar.set_message(msg);
+            }
+        }
+    }
+
+    Ok(())
+}
+
+async fn loop_countdown(
+    bar: ProgressBar,
+    start: Instant,
+    total: Duration,
+    interval: &mut Interval,
+) -> Result<()> {
+    let timer = sleep(total);
+    tokio::pin!(timer);
+    loop {
+        tokio::select! {
+            _ = &mut timer => {
+                bar.set_position(total.as_millis() as u64);
+                bar.set_message("0ns");
+                bar.finish_using_style();
+                break
+            },
+            _ = interval.tick() => {
+                let elapsed = start.elapsed();
+                bar.set_position(elapsed.as_millis() as u64);
+                let msg = format!("{}", format_duration(Duration::from_millis( (total - elapsed).as_millis() as u64)));
                 bar.set_message(msg);
             }
         }

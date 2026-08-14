@@ -20,6 +20,8 @@ bettertimer <duration> --progressbar-length <length>            # Or just -l
 bettertimer <duration> --progressbar-color <length>             # Or just -C
 bettertimer <duration> --progressbar-background-color <length>  # Or just -b 
 
+bettertimer <duration> --update-interval                        # Progressbar, timer update interval in millis
+
 # Define alias to avoid typing style options every time (Bash/Zsh)
 alias timer='bettertimer [OPTIONS]'
 ```
@@ -39,7 +41,7 @@ WARNING: AUR and nixpkgs packages are planned
 ### Linux
 
 ```sh
-curl --proto '=https' --tlsv1.2 -LsSf https://github.com/clorine-software/bettertimer/releases/download/v1.1.0/bettertimer-installer.sh | sh
+curl --proto '=https' --tlsv1.2 -LsSf https://github.com/clorine-software/bettertimer/releases/download/v1.1.1/bettertimer-installer.sh | sh
 ```
 
 Or download manually
@@ -47,7 +49,7 @@ Or download manually
 ### Windows
 
 ```powershell
-powershell -ExecutionPolicy Bypass -c "irm https://github.com/clorine-software/bettertimer/releases/download/v1.1.0/bettertimer-installer.ps1 | iex"
+powershell -ExecutionPolicy Bypass -c "irm https://github.com/clorine-software/bettertimer/releases/download/v1.1.1/bettertimer-installer.ps1 | iex"
 ```
 
 Or download manually

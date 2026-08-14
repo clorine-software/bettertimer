@@ -31,6 +31,9 @@ pub struct Args {
 
     #[arg(short = 'b', long, default_value_t = String::from("blue"))]
     pub progressbar_background_color: String,
+
+    #[arg(short, long, default_value_t = 10)]
+    pub update_interval: u64,
 }
 
 pub async fn parse_args() -> Result<Args> {
