@@ -38,7 +38,7 @@ alias timer='bettertimer --countdown --progressbar-length 80 --progressbar-color
 
 WARNING: nixpkgs packages are planned
 
-### ArchLinux - AUR
+### Arch Linux (AUR)
 ```sh
 yay -S bettertimer-bin # Or your AUR manager
 ```
