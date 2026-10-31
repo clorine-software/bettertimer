@@ -1,6 +1,6 @@
 <h1 align="center">BetterTimer</h1>
 
-BetterTimer is a small CLI, similar to the `sleep`, but with extra features:
+BetterTimer is a small CLI, similar to the 'sleep', but with extra features:
   - Customizable progressbar with timer
   - Named timers with message
   - Customizable notifications with the option to modify the message and name
@@ -46,7 +46,7 @@ yay -S bettertimer-bin # Or your AUR manager
 ### Other Linux
 
 ```sh
-curl --proto '=https' --tlsv1.2 -LsSf https://github.com/clorine-software/bettertimer/releases/download/v1.1.1/bettertimer-installer.sh | sh
+curl --proto '=https' --tlsv1.2 -LsSf https://github.com/clorine-software/bettertimer/releases/download/v1.1.2/bettertimer-installer.sh | sh
 ```
 
 Or download manually
@@ -54,7 +54,7 @@ Or download manually
 ### Windows
 
 ```powershell
-powershell -ExecutionPolicy Bypass -c "irm https://github.com/clorine-software/bettertimer/releases/download/v1.1.1/bettertimer-installer.ps1 | iex"
+powershell -ExecutionPolicy Bypass -c "irm https://github.com/clorine-software/bettertimer/releases/download/v1.1.2/bettertimer-installer.ps1 | iex"
 ```
 
 Or download manually
