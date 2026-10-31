@@ -17,8 +17,8 @@ bettertimer <duration> --countdown                              # Countdown mode
 
 # With styles
 bettertimer <duration> --progressbar-length <length>            # Or just -l
-bettertimer <duration> --progressbar-color <length>             # Or just -C
-bettertimer <duration> --progressbar-background-color <length>  # Or just -b 
+bettertimer <duration> --progressbar-color <color>              # Or just -C
+bettertimer <duration> --progressbar-background-color <color>   # Or just -b 
 
 bettertimer <duration> --update-interval <millis>               # Progressbar, timer update interval in millis
 
@@ -36,9 +36,14 @@ alias timer='bettertimer --countdown --progressbar-length 80 --progressbar-color
 
 ## Installation
 
-WARNING: AUR and nixpkgs packages are planned
+WARNING: nixpkgs packages are planned
 
-### Linux
+### ArchLinux - AUR
+```sh
+yay -S bettertimer-bin # Or your AUR manager
+```
+
+### Other Linux
 
 ```sh
 curl --proto '=https' --tlsv1.2 -LsSf https://github.com/clorine-software/bettertimer/releases/download/v1.1.1/bettertimer-installer.sh | sh
