@@ -1,0 +1,1 @@
+scripts/cargo-aur.sh
